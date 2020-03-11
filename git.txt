@@ -1,0 +1,97 @@
+参考：
+
+https://www.bootcss.com/p/git-guide/
+
+
+
+一。自己创建的新项目
+
+https://www.runoob.com/git/git-basic-operations.html
+
+
+
+二。仓库已存在，需要拷贝到本地
+
+git clone [url]
+
+
+
+三。常用指令
+
+
+
+四。一般开发步骤
+准备：创建新分支，切记，创建新分支的时候，当前分支要在主分支上，master或develop。因为创建分支的时候，相当于把当前分支的代码复制了一次。
+
+$ git checkout -b [新分支名]
+
+修改代码，然后commit提交。
+提交后，需要push，第一次push需要把本地新建的分支也要push到代码库
+
+$ git push --set-upstream origin [新分支名]
+
+好啦！
+
+
+
+step1: 确认代码状态，及分支
+
+$git status
+
+$git branch
+
+step2:提交代码到本地
+
+$git add .
+
+$git commit -am "comment"
+
+step3:提交代码到服务器
+
+$git push
+
+step4:切换分支到主分支，拉取最新代码
+
+$git checkout develop
+
+$git pull
+
+step5:切换到自己正在开发的分支,
+
+&git checkout issues_175   //切换到我现在开发的分支是issues_175
+
+&git merge  --no-ff develop  //把develop分支的代码merge到当前分支，merge后，会自动提交到远程分支。
+
+step6:有代码合并的时候，会自动跳入vi编辑器，必须输入内容，才可以被合并
+
+(敲键盘i键，进入Insert模式，写完后，按键盘esc按钮，然后按冒号，输入wq，回车后，便保存退出了。有时候也会出选项，上下按钮选择 :wq即可。
+
+step7:有时候代码有冲突，解决后，重新commit，push以后，再却换到develop的分支，重复第四步的行为。
+
+按键盘的i键，进入编辑模式。仔细看提示版的内容，输入你的记录。我一般直接写merge at 日期。
+按：键，通过上下选择你要的命令。我选:wq，回车，写入并退出的意思。
+
+
+
+
+
+五.开发中可能遇到的各种状况
+
+1. 我想要将master的代码merge到分支上，但是发现有需求待确定，需要放弃merge，幸好还没有push。但是想切换到其他分支时，因为没有merge成功，所以不允许切换分支。我该如何放弃merge？
+
+//在正在merge的分支下：
+$ git log -p //查看commit版本号,带自命令< -p >,是获取当前分支的commit版本号
+
+$ git reset --hard [commit 版本号]  /制回复到指定版本下，为什么用reset --hard？因为我用revert失败了，之后，没研究过，revert带子命令是否可以，可以参考下这个链接的说明。
+
+例如：$ git reset --hard e04b74886133f6aa12f9bc08d9d185663df1071d
+
+2.我在分支上修改代码，在提交（commit）之前，发现，呀！用错分支了，这可怎么办？不
+
+$ git stash //存储修改的代码
+
+$ git checkout [你想用的分支]
+
+$ git stash pop //取出存储的代码
+
+3.我提交(commit)了修改，但是未push，但是发现，又又又用错分支了，这样怎么办？
